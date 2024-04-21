@@ -335,7 +335,22 @@ require('lazy').setup({
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        -- Setting Picker delete buffer functionality
+        pickers = {
+          buffers = {
+            show_all_buffers = true,
+            sort_lastused = true,
+            previewer = true,
+            mappings = {
+              i = {
+                ['<c-x>'] = 'delete_buffer',
+              },
+              n = {
+                ['<c-x>'] = 'delete_buffer',
+              },
+            },
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -363,10 +378,7 @@ require('lazy').setup({
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>fz', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = true,
-        })
+        builtin.current_buffer_fuzzy_find()
       end, { desc = '[/] Fuzzily search in current buffer' })
     end,
   },
@@ -518,7 +530,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {},
-        gopls = {},
+        -- gopls = {},
         pyright = {},
         rust_analyzer = {},
         intelephense = {},
