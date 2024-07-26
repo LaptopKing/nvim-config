@@ -77,6 +77,39 @@ vim.opt.scrolloff = 10
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- -- Markdown viewer
+-- local function open_floating_window()
+--   local width = vim.api.nvim_win_get_width(0) / 1.5
+--   local height = vim.api.nvim_win_get_height(0) / 1.5
+--
+--   local buf = vim.api.nvim_create_buf(false, true)
+--
+--   local floating_win_width = vim.api.nvim_win_get_width(0)
+--   local floating_win_height = vim.api.nvim_win_get_height(0)
+--
+--   local opts = {
+--     relative = 'editor',
+--     width = math.floor(width),
+--     height = math.floor(height),
+--     col = (floating_win_width / 2) - (width / 2),
+--     row = (floating_win_height / 2) - (height / 2),
+--     anchor = 'NW',
+--     style = 'minimal',
+--   }
+--
+--   vim.bo[buf].filetype = 'glow'
+--
+--   local win = vim.api.nvim_open_win(buf, true, opts)
+--
+--   vim.fn.termopen 'glow'
+--   vim.cmd 'startinsert'
+-- end
+--
+-- -- Markdown viewer keymap
+-- vim.keymap.set('n', '<leader>md', function()
+--   open_floating_window()
+-- end)
+
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -537,6 +570,7 @@ require('lazy').setup({
         tsserver = {},
         html = {},
         vuels = {},
+        cssls = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -620,6 +654,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        jsx = { 'prettier' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -804,7 +839,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'php', 'javascript', 'vue' },
+      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'php', 'javascript', 'vue', 'blade' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -906,3 +941,24 @@ end)
 vim.keymap.set('t', '<M-v>', function()
   toggle_terminal 'vertical'
 end)
+
+-- Laravel blade syntax highlighting
+local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+parser_config.blade = {
+  install_info = {
+    url = 'https://github.com/EmranMR/tree-sitter-blade',
+    files = { 'src/parser.c' },
+    branch = 'main',
+  },
+  filetype = 'blade',
+}
+
+-- Define an autocommand group for Blade filetype
+vim.api.nvim_create_augroup('BladeFiletypeRelated', { clear = true })
+
+-- Set up the autocommand to associate *.blade.php files with the 'blade' filetype
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+  group = 'BladeFiletypeRelated',
+  pattern = '*.blade.php',
+  command = 'set filetype=blade',
+})
