@@ -1,0 +1,9 @@
+{
+  "coc.preferences.autoTrigger": "none",
+  "coc.source.buffers.enable": false,
+  "coc.source.path.enable": false,
+  "coc.source.nvim-lsp.enable": false,
+  "coc.source.vsnip.enable": false,
+  "coc.source.tabnine.enable": false,
+  "coc.source.cmp.enable": false
+}
