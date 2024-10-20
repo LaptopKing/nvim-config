@@ -19,7 +19,11 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = 'a'
+-- vim.opt.mouse = 'a'
+vim.opt.mouse = ''
+
+-- Hide the mouse when typing in any mode
+vim.opt.mousehide = true
 
 -- Activate true color terminal
 vim.opt.termguicolors = true
@@ -31,6 +35,12 @@ vim.opt.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.opt.clipboard = 'unnamedplus'
+
+-- Use tabs instead of spaces globally
+vim.opt.expandtab = false -- Use tabs instead of spaces
+vim.opt.tabstop = 4 -- Number of spaces per tab
+vim.opt.shiftwidth = 4 -- Number of spaces to use for each step of (auto)indent
+vim.opt.softtabstop = 4 -- Number of spaces a <Tab> counts for while performing editing operations
 
 -- Indentation colors
 vim.cmd [[highlight IndentColorBlue guifg=#5E6880 gui=nocombine]]
@@ -564,7 +574,7 @@ require('lazy').setup({
         pylsp = {},
         rust_analyzer = {},
         intelephense = {},
-        tsserver = {},
+        ts_ls = {},
         html = {},
         vuels = {},
         cssls = {},
@@ -773,6 +783,7 @@ require('lazy').setup({
     end,
   },
 
+  -- Colorscheme
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
@@ -780,12 +791,15 @@ require('lazy').setup({
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
     'andersevenrud/nordic.nvim',
+    'Mofiqul/dracula.nvim',
+    'olimorris/onedarkpro.nvim',
+    'morhetz/gruvbox',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'nordic'
+      vim.cmd.colorscheme 'dracula'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
@@ -912,7 +926,7 @@ require('lazy').setup({
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 
-vim.cmd.colorscheme 'nordic'
+vim.cmd.colorscheme 'dracula'
 
 -- Terminal Toggle Keymaps
 local terminal = require 'nvterm.terminal'
