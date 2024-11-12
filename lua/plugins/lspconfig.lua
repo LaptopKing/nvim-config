@@ -143,6 +143,7 @@ return { -- LSP Configuration & Plugins
     --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
     --  - settings (table): Override the default settings passed when initializing the server.
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+    --Enable (broadcasting) snippet capability for completion
     local servers = {
       clangd = {},
       -- gopls = {},
@@ -152,8 +153,8 @@ return { -- LSP Configuration & Plugins
       ts_ls = {},
       html = {},
       vuels = {},
-      cssls = {},
-      tailwindcss = {},
+      cssls = { settings = { css = { lint = { unknownAtRules = 'ignore' } } } },
+      -- tailwindcss = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
       -- Some languages (like typescript) have entire language plugins that can be useful:
