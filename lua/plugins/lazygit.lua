@@ -18,11 +18,9 @@ return {
     -- { '<leader>gg', ':!tmux new-window -c ' .. vim.fn.getcwd() .. ' -- lazygit <CR><CR>', desc = 'LazyGit' },
     {
       '<leader>gg',
-      ':!tmux popup -xC -yC -w'
-        .. math.floor(vim.api.nvim_win_get_width(0) * 0.95)
-        .. ' -h'
-        .. math.floor(vim.api.nvim_win_get_height(0) * 0.95)
-        .. ' -E lazygit<CR><CR>',
+      ':!tmux popup -d ' .. vim.fn.getcwd() .. ' -xC -yC -w' .. math.floor(vim.api.nvim_win_get_width(0) * 0.95) .. ' -h' .. math.floor(
+        vim.api.nvim_win_get_height(0) * 0.95
+      ) .. ' -E lazygit<CR><CR>',
       desc = 'LazyGit',
     },
   },
