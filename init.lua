@@ -245,31 +245,6 @@ require('lazy').setup({
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 
--- Terminal Toggle Keymaps
-local terminal = require 'nvterm.terminal'
-local function toggle_terminal(mode)
-  terminal.toggle(mode)
-end
-
-vim.keymap.set('n', '<M-i>', function()
-  toggle_terminal 'float'
-end)
-vim.keymap.set('t', '<M-i>', function()
-  toggle_terminal 'float'
-end)
-vim.keymap.set('n', '<M-h>', function()
-  toggle_terminal 'horizontal'
-end)
-vim.keymap.set('t', '<M-h>', function()
-  toggle_terminal 'horizontal'
-end)
-vim.keymap.set('n', '<M-v>', function()
-  toggle_terminal 'vertical'
-end)
-vim.keymap.set('t', '<M-v>', function()
-  toggle_terminal 'vertical'
-end)
-
 -- Set up the autocommand to associate *.blade.php files with the 'blade' filetype
 vim.filetype.add {
   pattern = {
@@ -388,3 +363,15 @@ vim.api.nvim_create_autocmd({ 'VimEnter', 'VimLeave' }, {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'php',
+  callback = function()
+    vim.bo.expandtab = false -- Use tabs instead of spaces
+    vim.bo.tabstop = 4 -- Number of spaces per tab
+    vim.bo.shiftwidth = 4 -- Number of spaces to use for autoindent
+  end,
+})
+
+local config_path = vim.fn.stdpath 'config' .. '/lua/'
+package.path = package.path .. ';' .. config_path .. '?.lua'
