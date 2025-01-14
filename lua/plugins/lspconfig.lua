@@ -157,9 +157,24 @@ return { -- LSP Configuration & Plugins
           insertSpaces = false, -- Use tabs instead of spaces
         },
       },
-      ts_ls = {},
+      ts_ls = {
+        init_options = {
+          plugins = {
+            {
+              name = '@vue/typescript-plugin',
+              location = '/home/strider/.nvm/versions/node/v21.6.2/lib/node_modules/@vue/typescript-plugin',
+              languages = { 'javascript', 'typescript', 'vue' },
+            },
+          },
+        },
+        filetypes = {
+          'javascript',
+          'typescript',
+          'vue',
+        },
+      },
       html = {},
-      vuels = {},
+      volar = { 'vue' },
       cssls = { settings = { css = { lint = { unknownAtRules = 'ignore' } } } },
       -- tailwindcss = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
