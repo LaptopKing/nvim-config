@@ -35,22 +35,29 @@ return {
       -- Lua
       lua = { 'stylua' },
 
-      -- JS/TS World
+      -- JS/TS/HTML World
       typescript = { 'prettierd', 'prettier', stop_after_first = true },
       javascript = { 'prettierd', 'prettier', stop_after_first = true },
       typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
       javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
       json = { 'prettierd', 'prettier', stop_after_first = true },
+      html = { 'prettierd', 'prettier', stop_after_first = true },
+      css = { 'prettierd', 'prettier', stop_after_first = true },
+      scss = { 'prettierd', 'prettier', stop_after_first = true },
+      markdown = { 'prettierd', 'prettier', stop_after_first = true },
       vue = { lsp_format = 'fallback' },
+
+      -- Config file World
+      yaml = { 'prettierd', 'prettier', stop_after_first = true },
 
       -- PHP/Laravel
       php = { 'php_cs_fixer', 'phpcbf', stop_after_first = true },
       blade = { 'blade-formatter' },
 
       -- SH World
-      -- bash = { 'shfmt' },
+      bash = { 'shfmt' },
       sh = { 'shfmt' },
-      -- zsh = { 'beautysh },
+      -- zsh = { 'beautysh' }, -- Doesn't work for some reason
 
       ['_'] = { 'trim_whitespace' },
     },
