@@ -5,32 +5,18 @@ return {
     {
       '<leader>fm',
       function()
-        require('conform').format { async = true, lsp_fallback = true }
+        require('conform').format { async = true, lsp_format = 'fallback' }
       end,
       mode = '',
       desc = '[F]ormat buffer',
     },
   },
   opts = {
-    notify_on_error = false,
     ignore_errors = false,
-    lang_to_ft = {
-      bash = 'sh',
-    },
-    lang_to_ext = {
-      bash = 'sh',
-      c_sharp = 'cs',
-      elixir = 'exs',
-      javascript = 'js',
-      julia = 'jl',
-      latex = 'tex',
-      markdown = 'md',
-      python = 'py',
-      ruby = 'rb',
-      rust = 'rs',
-      teal = 'tl',
-      typescript = 'ts',
-    },
+    notify_on_error = true,
+    notify_no_formatters = true,
+    log_level = vim.log.levels.DEBUG,
+
     format_on_save = function(bufnr)
       local disable_filetypes = {}
       return {
@@ -38,35 +24,35 @@ return {
         lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
       }
     end,
-    formatters_by_ft = {
-      lua = { 'stylua' },
-      jsx = { 'prettierd', 'prettier', stop_after_first = true },
-      tsx = { 'prettierd', 'prettier', stop_after_first = true },
-      javascript = { 'prettierd', 'prettier', stop_after_first = true },
-      typescript = { 'prettierd', 'prettier', stop_after_first = true },
-      vue = { lsp_format = 'fallback' },
-      php = { 'php_cs_fixer', 'phpcbf', stop_after_first = true },
-      bash = { 'beautysh' },
-      zsh = { 'beautysh' },
+
+    formatters = {
+      shfmt = {
+        append_args = { '-i', '4' },
+      },
     },
 
-    ft_parsers = {
-      javascript = 'babel',
-      javascriptreact = 'babel',
-      typescript = 'typescript',
-      typescriptreact = 'typescript',
-      vue = 'vue',
-      css = 'css',
-      scss = 'scss',
-      less = 'less',
-      html = 'html',
-      json = 'json',
-      jsonc = 'json',
-      yaml = 'yaml',
-      markdown = 'markdown',
-      ['markdown.mdx'] = 'mdx',
-      graphql = 'graphql',
-      handlebars = 'glimmer',
+    formatters_by_ft = {
+      -- Lua
+      lua = { 'stylua' },
+
+      -- JS/TS World
+      typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      json = { 'prettierd', 'prettier', stop_after_first = true },
+      vue = { lsp_format = 'fallback' },
+
+      -- PHP/Laravel
+      php = { 'php_cs_fixer', 'phpcbf', stop_after_first = true },
+      blade = { 'blade-formatter' },
+
+      -- SH World
+      -- bash = { 'shfmt' },
+      sh = { 'shfmt' },
+      -- zsh = { 'beautysh },
+
+      ['_'] = { 'trim_whitespace' },
     },
   },
 }

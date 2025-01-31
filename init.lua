@@ -290,3 +290,7 @@ vim.api.nvim_create_autocmd({ 'VimEnter', 'VimLeave' }, {
 
 local config_path = vim.fn.stdpath 'config' .. '/lua/'
 package.path = package.path .. ';' .. config_path .. '?.lua'
+
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
