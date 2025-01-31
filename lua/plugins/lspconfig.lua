@@ -14,6 +14,16 @@ return { -- LSP Configuration & Plugins
     -- used for completion, annotations and signatures of Neovim apis
     { 'folke/neodev.nvim', opts = {} },
   },
+  opts = {
+    on_attach = function(client, bufnr)
+      if client.supports_method 'textDocument/formatting' then
+        client.server_capabilities.documentFormattingProvider = false
+      end
+      if client.supports_method 'textDocument/rangeFormatting' then
+        client.server_capabilities.documentRangeFormattingProvider = false
+      end
+    end,
+  },
   config = function()
     -- Brief aside: **What is LSP?**
     --
@@ -151,12 +161,7 @@ return { -- LSP Configuration & Plugins
       -- gopls = {},
       pylsp = {},
       rust_analyzer = {},
-      intelephense = {
-        editor = {
-          tabSize = 4, -- Number of spaces per tab
-          insertSpaces = false, -- Use tabs instead of spaces
-        },
-      },
+      intelephense = {},
       ts_ls = {
         init_options = {
           plugins = {
@@ -169,22 +174,24 @@ return { -- LSP Configuration & Plugins
         },
         filetypes = {
           'javascript',
+          'javascriptreact',
+          'javascript.jsx',
           'typescript',
-          'vue',
+          'typescriptreact',
+          'typescript.tsx',
         },
       },
       html = {},
-      volar = { 'vue' },
-      cssls = { settings = { css = { lint = { unknownAtRules = 'ignore' } } } },
-      -- tailwindcss = {},
-      -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-      --
-      -- Some languages (like typescript) have entire language plugins that can be useful:
-      --    https://github.com/pmizio/typescript-tools.nvim
-      --
-      -- But for many setups, the LSP (`tsserver`) will work just fine
-      -- tsserver = {},
-      --
+      cssls = {},
+      volar = {
+        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        init_options = {
+          vue = {
+            -- disable hybrid mode
+            hybridMode = true,
+          },
+        },
+      },
 
       lua_ls = {
         -- cmd = {...},
@@ -216,19 +223,23 @@ return { -- LSP Configuration & Plugins
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
     })
-    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
     require('mason-lspconfig').setup {
+      automatic_installation = {},
+      ensure_installed = {},
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for tsserver)
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
+          require('lspconfig')[server_name].setup(vim.tbl_extend('force', {
+            capabilities = capabilities,
+            on_attach = function(client, bufnr)
+              -- Optional: Additional per-server setup
+            end,
+          }, server))
         end,
       },
     }
+    vim.lsp.inlay_hint = vim.lsp.inlay_hint or function(bufnr, enable) end -- Fallback for older Neovim
   end,
 }

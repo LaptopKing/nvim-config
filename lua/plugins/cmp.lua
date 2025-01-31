@@ -2,6 +2,42 @@ return { -- Autocompletion
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
   dependencies = {
+
+    -- Snippets
+    'saadparwaiz1/cmp_luasnip',
+
+    -- Buffer / Vim-builtin functionality
+    'hrsh7th/cmp-omni',
+    'hrsh7th/cmp-buffer',
+    -- 'hrsh7th/cmp-cmdline',
+    'uga-rosa/cmp-dictionary',
+
+    -- LSP
+    'onsails/lspkind-nvim',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-nvim-lsp-signature-help',
+    'luckasRanarison/tailwind-tools.nvim',
+
+    -- Filesystem paths
+    'hrsh7th/cmp-path',
+
+    -- Fuzzy finding
+    {
+      'tzachar/cmp-fuzzy-buffer',
+      dependencies = {
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        'tzachar/fuzzy.nvim',
+      },
+    },
+    {
+      'tzachar/cmp-fuzzy-path',
+      dependencies = {
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        'tzachar/fuzzy.nvim',
+      },
+    },
+    'lukas-reineke/cmp-rg',
+
     -- Snippet Engine & its associated nvim-cmp source
     {
       'L3MON4D3/LuaSnip',
@@ -26,13 +62,6 @@ return { -- Autocompletion
         -- },
       },
     },
-    'saadparwaiz1/cmp_luasnip',
-
-    -- Adds other completion capabilities.
-    --  nvim-cmp does not ship with all sources by default. They are split
-    --  into multiple repos for maintenance purposes.
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-path',
   },
   config = function()
     -- See `:help cmp`
@@ -101,9 +130,41 @@ return { -- Autocompletion
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
       sources = {
-        { name = 'nvim_lsp' },
+        -- Snippets
         { name = 'luasnip' },
+
+        -- Buffer / Vim-builtin functionality
+        {
+          name = 'omni',
+          option = {
+            disable_omnifuncs = { 'v:lua.vim.lsp.omnifunc' },
+          },
+        },
+        { name = 'buffer' },
+        {
+          name = 'dictionary',
+          keyword_length = 2,
+        },
+
+        -- LSP
+        { name = 'nvim_lsp' },
+        { name = 'nvim_lsp_signature_help' },
+
+        -- Filesystem paths
         { name = 'path' },
+
+        -- Fuzzy finding
+        { name = 'fuzzy_buffer' },
+      },
+    }
+  end,
+  opts = function()
+    return {
+      -- ...
+      formatting = {
+        format = require('lspkind').cmp_format {
+          before = require('tailwind-tools.cmp').lspkind_format,
+        },
       },
     }
   end,

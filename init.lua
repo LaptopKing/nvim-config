@@ -36,12 +36,6 @@ vim.opt.showmode = false
 --  See `:help 'clipboard'`
 vim.opt.clipboard = 'unnamedplus'
 
--- Use tabs instead of spaces globally
-vim.opt.expandtab = false -- Use tabs instead of spaces
-vim.opt.tabstop = 4 -- Number of spaces per tab
-vim.opt.shiftwidth = 4 -- Number of spaces to use for each step of (auto)indent
-vim.opt.softtabstop = 4 -- Number of spaces a <Tab> counts for while performing editing operations
-
 -- Indentation colors
 vim.api.nvim_create_autocmd('ColorScheme', {
   pattern = '*',
@@ -189,9 +183,7 @@ require('lazy').setup({
   'tpope/vim-abolish',
   'othree/html5.vim',
   { 'jwalton512/vim-blade', lazy = false },
-  { 'neoclide/coc.nvim', lazy = false },
   { 'junegunn/vim-plug', lazy = false },
-  { 'yaegassy/coc-blade', lazy = false },
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
@@ -252,8 +244,6 @@ vim.filetype.add {
   },
 }
 
--- https://raw.githubusercontent.com/neoclide/coc.nvim/master/doc/coc-example-config.lua
-
 -- Some servers have issues with backup files, see #649
 vim.opt.backup = false
 vim.opt.writebackup = false
@@ -281,95 +271,20 @@ end
 -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
 -- other plugins before putting this into your config
 local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
-vim.keymap.set('i', '<c-n>', 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
-vim.keymap.set('i', '<c-p>', [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
 
--- Make <CR> to accept selected completion item or notify coc.nvim to format
--- <C-g>u breaks current undo, please make your own choice
-vim.keymap.set('i', '<cr>', [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-
--- Use <c-j> to trigger snippets
-vim.keymap.set('i', '<c-j>', '<Plug>(coc-snippets-expand-jump)')
--- Use <c-space> to trigger completion
-vim.keymap.set('i', '<c-space>', 'coc#refresh()', { silent = true, expr = true })
-
--- Use `[g` and `]g` to navigate diagnostics
--- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
-vim.keymap.set('n', '[g', '<Plug>(coc-diagnostic-prev)', { silent = true })
-vim.keymap.set('n', ']g', '<Plug>(coc-diagnostic-next)', { silent = true })
-
--- GoTo code navigation
-vim.keymap.set('n', 'gd', '<Plug>(coc-definition)', { silent = true })
-vim.keymap.set('n', 'gy', '<Plug>(coc-type-definition)', { silent = true })
-vim.keymap.set('n', 'gi', '<Plug>(coc-implementation)', { silent = true })
-vim.keymap.set('n', 'gr', '<Plug>(coc-references)', { silent = true })
-
--- Use K to show documentation in preview window
-function _G.show_docs()
-  local cw = vim.fn.expand '<cword>'
-  if vim.fn.index({ 'vim', 'help' }, vim.bo.filetype) >= 0 then
-    vim.api.nvim_command('h ' .. cw)
-  elseif vim.api.nvim_eval 'coc#rpc#ready()' then
-    vim.fn.CocActionAsync 'doHover'
-  else
-    vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
-  end
-end
 vim.keymap.set('n', 'K', '<CMD>lua _G.show_docs()<CR>', { silent = true })
-
--- Highlight the symbol and its references on a CursorHold event(cursor is idle)
-vim.api.nvim_create_augroup('CocGroup', {})
-vim.api.nvim_create_autocmd('CursorHold', {
-  group = 'CocGroup',
-  command = "silent call CocActionAsync('highlight')",
-  desc = 'Highlight symbol under cursor on CursorHold',
-})
-
--- Setup formatexpr specified filetype(s)
-vim.api.nvim_create_autocmd('FileType', {
-  group = 'CocGroup',
-  pattern = 'typescript,json',
-  command = "setl formatexpr=CocAction('formatSelected')",
-  desc = 'Setup formatexpr specified filetype(s).',
-})
-
--- Update signature help on jump placeholder
-vim.api.nvim_create_autocmd('User', {
-  group = 'CocGroup',
-  pattern = 'CocJumpPlaceholder',
-  command = "call CocActionAsync('showSignatureHelp')",
-  desc = 'Update signature help on jump placeholder',
-})
-
--- Add `:Format` command to format current buffer
-vim.api.nvim_create_user_command('Format', "call CocAction('format')", {})
-
--- " Add `:Fold` command to fold current buffer
-vim.api.nvim_create_user_command('Fold', "call CocAction('fold', <f-args>)", { nargs = '?' })
-
--- Add `:OR` command for organize imports of the current buffer
-vim.api.nvim_create_user_command('OR', "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
 
 vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
 
 local uv = vim.loop
 
+-- tmux plugin
 vim.env.TMUX_PLUGIN_MANAGER_PATH = '/home/strider/.config/tmux/plugins'
-
 vim.api.nvim_create_autocmd({ 'VimEnter', 'VimLeave' }, {
   callback = function()
     if vim.env.TMUX_PLUGIN_MANAGER_PATH then
       uv.spawn(vim.env.TMUX_PLUGIN_MANAGER_PATH .. '/tmux-window-name/scripts/rename_session_windows.py', {})
     end
-  end,
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'php',
-  callback = function()
-    vim.bo.expandtab = false -- Use tabs instead of spaces
-    vim.bo.tabstop = 4 -- Number of spaces per tab
-    vim.bo.shiftwidth = 4 -- Number of spaces to use for autoindent
   end,
 })
 
