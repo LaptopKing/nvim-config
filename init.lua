@@ -294,3 +294,12 @@ package.path = package.path .. ';' .. config_path .. '?.lua'
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
+
+vim.diagnostic.config { virtual_text = false }
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave', 'CursorMoved' }, {
+  pattern = '*',
+  callback = function()
+    vim.diagnostic.open_float(nil, { focusable = false })
+  end,
+})
