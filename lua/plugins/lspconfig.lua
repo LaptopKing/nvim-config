@@ -192,6 +192,7 @@ return { -- LSP Configuration & Plugins
           },
         },
       },
+      prismals = {},
 
       lua_ls = {
         -- cmd = {...},
