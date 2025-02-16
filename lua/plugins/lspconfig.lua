@@ -193,6 +193,7 @@ return { -- LSP Configuration & Plugins
         },
       },
       prismals = {},
+      twiggy_language_server = {},
 
       lua_ls = {
         -- cmd = {...},

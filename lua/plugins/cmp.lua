@@ -3,6 +3,9 @@ return { -- Autocompletion
   event = 'InsertEnter',
   dependencies = {
 
+    -- Bootstrap
+    'rambhosale/cmp-bootstrap.nvim',
+
     -- Snippets
     'saadparwaiz1/cmp_luasnip',
 
@@ -156,6 +159,15 @@ return { -- Autocompletion
         -- Fuzzy finding
         { name = 'fuzzy_buffer' },
       },
+
+      -- Enable cmp-bootstrap for Twig files
+      cmp.setup.filetype('twig', {
+        sources = cmp.config.sources {
+          { name = 'cmp_bootstrap' },
+          { name = 'nvim_lsp' },
+          { name = 'buffer' },
+        },
+      }),
     }
   end,
   opts = function()
