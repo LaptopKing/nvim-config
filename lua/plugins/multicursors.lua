@@ -56,6 +56,7 @@ return {
     set({ 'n', 'v' }, '<leader><c-q>', mc.duplicateCursors, { desc = 'Duplicate all cursors and disable originals' })
 
     set('n', '<esc>', function()
+      vim.cmd 'nohlsearch'
       if not mc.cursorsEnabled() then
         mc.enableCursors()
       elseif mc.hasCursors() then
