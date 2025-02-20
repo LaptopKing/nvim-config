@@ -53,6 +53,7 @@ return {
       -- PHP/Laravel
       php = { 'php_cs_fixer', 'phpcbf', stop_after_first = true },
       blade = { 'blade-formatter' },
+      twig = { 'djlint', 'twig-cs-fixer' },
 
       -- SH World
       bash = { 'shfmt' },
