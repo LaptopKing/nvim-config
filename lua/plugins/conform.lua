@@ -18,16 +18,24 @@ return {
     log_level = vim.log.levels.DEBUG,
 
     format_on_save = function(bufnr)
-      local disable_filetypes = {}
-      return {
-        timeout_ms = 500,
-        lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-      }
+      local filename = vim.api.nvim_buf_get_name(bufnr)
+      if filename:match '%.min%..+' then
+        return
+      end
+      return { timeout_ms = 500, lsp_fallback = true }
     end,
 
     formatters = {
       shfmt = {
         append_args = { '-i', '4' },
+      },
+      djlint = {
+        append_args = {
+          -- '--format-css',
+          -- '--format-js',
+          '--close-void-tags',
+          '--format-attribute-template-tags',
+        },
       },
     },
 

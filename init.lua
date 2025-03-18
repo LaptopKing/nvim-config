@@ -303,3 +303,10 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave', 'Cursor
     vim.diagnostic.open_float(nil, { focusable = false })
   end,
 })
+
+vim.api.nvim_create_autocmd('BufReadPre', {
+  pattern = '*.min.*',
+  callback = function()
+    vim.b.autoformat = false -- If your formatter respects this variable
+  end,
+})
