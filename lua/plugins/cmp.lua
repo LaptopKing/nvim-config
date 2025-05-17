@@ -9,6 +9,15 @@ return { -- Autocompletion
     -- Snippets
     'saadparwaiz1/cmp_luasnip',
 
+    -- Zsh
+    'tamago324/cmp-zsh',
+
+    -- SQL
+    'ray-x/cmp-sql',
+
+    -- Dotenv
+    'SergioRibera/cmp-dotenv',
+
     -- Buffer / Vim-builtin functionality
     'hrsh7th/cmp-omni',
     'hrsh7th/cmp-buffer',
@@ -25,21 +34,21 @@ return { -- Autocompletion
     'hrsh7th/cmp-path',
 
     -- Fuzzy finding
-    {
-      'tzachar/cmp-fuzzy-buffer',
-      dependencies = {
-        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-        'tzachar/fuzzy.nvim',
-      },
-    },
-    {
-      'tzachar/cmp-fuzzy-path',
-      dependencies = {
-        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-        'tzachar/fuzzy.nvim',
-      },
-    },
-    'lukas-reineke/cmp-rg',
+    -- {
+    --   'tzachar/cmp-fuzzy-buffer',
+    --   dependencies = {
+    --     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    --     'tzachar/fuzzy.nvim',
+    --   },
+    -- },
+    -- {
+    --   'tzachar/cmp-fuzzy-path',
+    --   dependencies = {
+    --     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    --     'tzachar/fuzzy.nvim',
+    --   },
+    -- },
+    -- 'lukas-reineke/cmp-rg',
 
     -- Snippet Engine & its associated nvim-cmp source
     {
@@ -133,25 +142,27 @@ return { -- Autocompletion
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
       sources = {
+        -- LSP
+        { name = 'nvim_lsp' },
+        { name = 'nvim_lsp_signature_help' },
+
         -- Snippets
         { name = 'luasnip' },
 
         -- Buffer / Vim-builtin functionality
-        {
-          name = 'omni',
-          option = {
-            disable_omnifuncs = { 'v:lua.vim.lsp.omnifunc' },
-          },
-        },
         { name = 'buffer' },
         {
           name = 'dictionary',
           keyword_length = 2,
         },
 
-        -- LSP
-        { name = 'nvim_lsp' },
-        { name = 'nvim_lsp_signature_help' },
+        -- Omni (fallback for omnifunc)
+        {
+          name = 'omni',
+          option = {
+            disable_omnifuncs = { 'v:lua.vim.lsp.omnifunc' },
+          },
+        },
 
         -- Filesystem paths
         { name = 'path' },
