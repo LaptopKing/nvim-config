@@ -129,23 +129,6 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
--- Save last cursor position after closing file
-vim.api.nvim_create_autocmd('BufRead', {
-  callback = function(opts)
-    vim.api.nvim_create_autocmd('BufWinEnter', {
-      once = true,
-      buffer = opts.buf,
-      callback = function()
-        local ft = vim.bo[opts.buf].filetype
-        local last_known_line = vim.api.nvim_buf_get_mark(opts.buf, '"')[1]
-        if not (ft:match 'commit' and ft:match 'rebase') and last_known_line > 1 and last_known_line <= vim.api.nvim_buf_line_count(opts.buf) then
-          vim.api.nvim_feedkeys([[g`"]], 'nx', false)
-        end
-      end,
-    })
-  end,
-})
-
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
@@ -265,28 +248,14 @@ function _G.check_back_space()
   return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s' ~= nil
 end
 
--- Use Tab for trigger completion with characters ahead and navigate
--- NOTE: There's always a completion item selected by default, you may want to enable
--- no select by setting `"suggest.noselect": true` in your configuration file
--- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
--- other plugins before putting this into your config
-local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
+-- diagnostics opts
+vim.diagnostic.config { underline = true }
 
-vim.keymap.set('n', 'K', '<CMD>lua _G.show_docs()<CR>', { silent = true })
+-- Show information about variables, functions and more
+-- vim.keymap.set('n', 'K', '<CMD>lua _G.show_docs()<CR>', { silent = true })
 
+-- Oil file manager
 vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
-
-local uv = vim.loop
-
--- tmux plugin
-vim.env.TMUX_PLUGIN_MANAGER_PATH = '/home/strider/.config/tmux/plugins'
-vim.api.nvim_create_autocmd({ 'VimEnter', 'VimLeave' }, {
-  callback = function()
-    if vim.env.TMUX_PLUGIN_MANAGER_PATH then
-      uv.spawn(vim.env.TMUX_PLUGIN_MANAGER_PATH .. '/tmux-window-name/scripts/rename_session_windows.py', {})
-    end
-  end,
-})
 
 local config_path = vim.fn.stdpath 'config' .. '/lua/'
 package.path = package.path .. ';' .. config_path .. '?.lua'
@@ -295,18 +264,8 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
-vim.diagnostic.config { virtual_text = false }
-
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave', 'CursorMoved' }, {
-  pattern = '*',
-  callback = function()
-    vim.diagnostic.open_float(nil, { focusable = false })
-  end,
-})
-
-vim.api.nvim_create_autocmd('BufReadPre', {
-  pattern = '*.min.*',
-  callback = function()
-    vim.b.autoformat = false -- If your formatter respects this variable
-  end,
-})
+require 'lua.scripts.save-last-cursor-position'
+require 'lua.scripts.tmux-window-renamer'
+require 'lua.scripts.diagnostics-float'
+require 'lua.scripts.no-min-file-auto-format'
+require 'lua.scripts.win32-yank'

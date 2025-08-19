@@ -43,6 +43,9 @@ return {
       -- Lua
       lua = { 'stylua' },
 
+      -- Python
+      python = { 'autopep8' },
+
       -- JS/TS/HTML World
       typescript = { 'prettierd', 'prettier', stop_after_first = true },
       javascript = { 'prettierd', 'prettier', stop_after_first = true },

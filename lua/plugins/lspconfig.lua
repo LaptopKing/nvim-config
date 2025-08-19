@@ -157,43 +157,50 @@ return { -- LSP Configuration & Plugins
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
     --Enable (broadcasting) snippet capability for completion
     local servers = {
-      clangd = {},
+      -- clangd = {},
       -- gopls = {},
-      pylsp = {},
-      rust_analyzer = {},
-      intelephense = {},
-      ts_ls = {
-        init_options = {
-          plugins = {
-            {
-              name = '@vue/typescript-plugin',
-              location = '/home/strider/.nvm/versions/node/v21.6.2/lib/node_modules/@vue/typescript-plugin',
-              languages = { 'javascript', 'typescript', 'vue' },
-            },
-          },
-        },
-        filetypes = {
-          'javascript',
-          'javascriptreact',
-          'javascript.jsx',
-          'typescript',
-          'typescriptreact',
-          'typescript.tsx',
-        },
-      },
-      html = {},
-      cssls = {},
-      volar = {
-        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-        init_options = {
-          vue = {
-            -- disable hybrid mode
-            hybridMode = true,
-          },
-        },
-      },
-      prismals = {},
-      twiggy_language_server = {},
+      -- pylsp = {},
+      -- pyright = {},
+      -- jedi_language_server = {},
+      -- ruff = {},
+      -- rust_analyzer = {},
+      -- intelephense = {},
+      -- ts_ls = {
+      --   init_options = {
+      --     plugins = {
+      --       {
+      --         name = '@vue/typescript-plugin',
+      --         location = '/home/strider/.nvm/versions/node/v20.19.2/lib/node_modules/@vue/typescript-plugin@2.2.10',
+      --         languages = { 'javascript', 'typescript', 'vue' },
+      --       },
+      --     },
+      --   },
+      --   filetypes = {
+      --     'javascript',
+      --     'javascriptreact',
+      --     'javascript.jsx',
+      --     'typescript',
+      --     'typescriptreact',
+      --     'typescript.tsx',
+      --   },
+      -- },
+      -- html = {},
+      -- cssls = {},
+      -- vue_ls = {
+      --   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+      --   init_options = {
+      --     vue = {
+      --       -- disable hybrid mode
+      --       hybridMode = true,
+      --     },
+      --   },
+      -- },
+      -- vtsls = {},
+      -- prismals = {},
+      -- twiggy_language_server = {},
+
+      -- dockerls = {},
+      -- docker_compose_language_service = {},
 
       lua_ls = {
         -- cmd = {...},

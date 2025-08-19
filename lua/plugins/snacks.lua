@@ -32,7 +32,7 @@ return {
       pattern = 'VeryLazy',
       callback = function()
         -- Set dimming automatically at startup
-        Snacks.dim()
+        -- Snacks.dim()
 
         -- Create some toggle mappings
         Snacks.toggle.indent():map '<leader>ug'
