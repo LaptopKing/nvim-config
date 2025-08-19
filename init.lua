@@ -264,8 +264,8 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
-require 'lua.scripts.save-last-cursor-position'
-require 'lua.scripts.tmux-window-renamer'
-require 'lua.scripts.diagnostics-float'
-require 'lua.scripts.no-min-file-auto-format'
-require 'lua.scripts.win32-yank'
+require 'scripts.save-last-cursor-position'
+require 'scripts.tmux-window-renamer'
+require 'scripts.diagnostics-float'
+require 'scripts.no-min-file-auto-format'
+require 'scripts.win32-yank'
