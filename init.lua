@@ -117,6 +117,19 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
+vim.keymap.set(
+  'n',
+  '<leader>gg',
+  ':!tmux popup -d '
+    .. vim.fn.getcwd()
+    .. ' -xC -yC -w'
+    .. math.floor(vim.api.nvim_win_get_width(0) * 0.95)
+    .. ' -h'
+    .. math.floor(vim.api.nvim_win_get_height(0) * 0.95)
+    .. ' -E lazygit<CR><CR>',
+  { desc = 'LazyGit' }
+)
+
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --
@@ -238,9 +251,6 @@ vim.opt.updatetime = 300
 -- Always show the signcolumn, otherwise it would shift the text each time
 -- diagnostics appeared/became resolved
 vim.opt.signcolumn = 'yes'
-
--- telescope colorscheme changer
-vim.api.nvim_set_keymap('n', '<leader>tt', ':Telescope colorscheme<CR>', { noremap = true, silent = true })
 
 -- Autocomplete
 function _G.check_back_space()

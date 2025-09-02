@@ -12,7 +12,7 @@ return { -- LSP Configuration & Plugins
 
     -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
-    { 'folke/neodev.nvim', opts = {} },
+    -- { 'folke/neodev.nvim', opts = {} },
   },
   opts = {
     on_attach = function(client, bufnr)
@@ -165,37 +165,38 @@ return { -- LSP Configuration & Plugins
       -- ruff = {},
       -- rust_analyzer = {},
       -- intelephense = {},
-      -- ts_ls = {
-      --   init_options = {
-      --     plugins = {
-      --       {
-      --         name = '@vue/typescript-plugin',
-      --         location = '/home/strider/.nvm/versions/node/v20.19.2/lib/node_modules/@vue/typescript-plugin@2.2.10',
-      --         languages = { 'javascript', 'typescript', 'vue' },
-      --       },
-      --     },
-      --   },
-      --   filetypes = {
-      --     'javascript',
-      --     'javascriptreact',
-      --     'javascript.jsx',
-      --     'typescript',
-      --     'typescriptreact',
-      --     'typescript.tsx',
-      --   },
-      -- },
+      ts_ls = {
+        init_options = {
+          plugins = {
+            {
+              name = '@vue/typescript-plugin',
+              location = '/home/strider/.nvm/versions/node/v22.18.0/lib/node_modules/@vue/typescript-plugin',
+              languages = { 'vue' },
+            },
+          },
+        },
+        filetypes = {
+          'javascript',
+          'javascriptreact',
+          'javascript.jsx',
+          'typescript',
+          'typescriptreact',
+          'typescript.tsx',
+          'vue',
+        },
+      },
       -- html = {},
       -- cssls = {},
-      -- vue_ls = {
-      --   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-      --   init_options = {
-      --     vue = {
-      --       -- disable hybrid mode
-      --       hybridMode = true,
-      --     },
-      --   },
-      -- },
-      -- vtsls = {},
+      vue_ls = {
+        filetypes = { 'vue' },
+        init_options = {
+          vue = {
+            -- disable hybrid mode
+            hybridMode = true,
+          },
+        },
+      },
+      vtsls = {},
       -- prismals = {},
       -- twiggy_language_server = {},
 
