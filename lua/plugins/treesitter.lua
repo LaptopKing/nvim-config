@@ -20,7 +20,7 @@ return {
     opts = {
         -- LazyVim config for treesitter
         indent = { enable = true },
-        highlight = { enable = true },
+        highlight = { enable = true, additional_vim_regex_highlighting = false },
         folds = { enable = false },
         ensure_installed = {
             "bash",

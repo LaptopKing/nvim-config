@@ -9,16 +9,16 @@ return {
         local set = vim.keymap.set
 
         -- Add or skip cursor above/below the main cursor.
-        set({ "n", "v" }, "<C-k>", function()
+        set({ "n", "v" }, "<M-k>", function()
             mc.lineAddCursor(-1)
         end, { desc = "Add cursor above the main cursor" })
-        set({ "n", "v" }, "<C-j>", function()
+        set({ "n", "v" }, "<M-j>", function()
             mc.lineAddCursor(1)
         end, { desc = "Add cursor below the main cursor" })
-        set({ "n", "v" }, "<C-M-k>", function()
+        set({ "n", "v" }, "<M-S-k>", function()
             mc.lineSkipCursor(-1)
         end, { desc = "Skip adding cursor above the main cursor" })
-        set({ "n", "v" }, "<C-M-j>", function()
+        set({ "n", "v" }, "<M-S-j>", function()
             mc.lineSkipCursor(1)
         end, { desc = "Skip adding cursor below the main cursor" })
 
@@ -59,17 +59,6 @@ return {
             mc.duplicateCursors,
             { desc = "Duplicate all cursors and disable originals" }
         )
-
-        set("n", "<esc>", function()
-            vim.cmd("nohlsearch")
-            if not mc.cursorsEnabled() then
-                mc.enableCursors()
-            elseif mc.hasCursors() then
-                mc.clearCursors()
-            else
-                -- Default <esc> handler.
-            end
-        end, { desc = "Enable/clear cursors or default <esc> behavior" })
 
         -- Bring back cursors if you accidentally clear them
         set("n", "<leader>gv", mc.restoreCursors, { desc = "Restore previously cleared cursors" })

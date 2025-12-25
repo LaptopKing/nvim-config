@@ -12,15 +12,6 @@ local function augroup(name)
     return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
 end
 
--- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-    group = augroup("checktime"),
-    callback = function()
-        if vim.o.buftype ~= "nofile" then
-            vim.cmd("checktime")
-        end
-    end,
-})
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -133,34 +124,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     end,
 })
 
--- Diagnostics float START
-local group = vim.api.nvim_create_augroup("OoO", {})
-
-local function au(typ, pattern, cmdOrFn)
-    if type(cmdOrFn) == "function" then
-        vim.api.nvim_create_autocmd(typ, { pattern = pattern, callback = cmdOrFn, group = group })
-    else
-        vim.api.nvim_create_autocmd(typ, { pattern = pattern, command = cmdOrFn, group = group })
-    end
-end
-
-au({ "CursorHold", "InsertLeave" }, nil, function()
-    local opts = {
-        focusable = false,
-        scope = "cursor",
-        close_events = { "BufLeave", "CursorMoved", "InsertEnter" },
-    }
-    vim.diagnostic.open_float(nil, opts)
-end)
-
-au("InsertEnter", nil, function()
-    vim.diagnostic.enable(false)
-end)
-
-au("InsertLeave", nil, function()
-    vim.diagnostic.enable(true)
-end)
--- Diagnostics float END
 
 vim.api.nvim_create_autocmd("BufEnter", {
     callback = function()

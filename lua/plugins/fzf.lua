@@ -107,6 +107,7 @@ return {
                 },
             },
             files = {
+                cmd = "fd --type f --hidden --follow --exclude .git",
                 cwd_prompt = false,
                 actions = {
                     ["alt-i"] = { actions.toggle_ignore },
@@ -114,6 +115,7 @@ return {
                 },
             },
             grep = {
+                cmd = "rg --smart-case --line-number --column",
                 actions = {
                     ["alt-i"] = { actions.toggle_ignore },
                     ["alt-h"] = { actions.toggle_hidden },
@@ -172,6 +174,7 @@ return {
             desc = "Switch Buffer",
         },
         { "<leader>fg", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
+        { "<leader>fz", "<cmd>FzfLua blines<cr>", desc = "Fzf Search in Current Buffer" },
         { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
         -- { "<leader><space>", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
         -- find
@@ -229,3 +232,4 @@ return {
         },
     },
 }
+
